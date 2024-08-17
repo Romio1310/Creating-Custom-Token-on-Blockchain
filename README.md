@@ -1,97 +1,76 @@
-# MyToken - ERC20 Token Contract
+
+# MyToken Project
 
 ## Overview
 
-This repository contains the source code for `MyToken`, an ERC20 token smart contract developed using Solidity. The contract includes basic functionalities such as token minting by the owner and token burning by any token holder.
+This project involves creating and deploying an ERC-20 token using Solidity. The smart contract allows the contract owner to mint tokens, while any user can burn and transfer tokens. The project was developed as part of the course to demonstrate the creation and management of tokens on the Ethereum blockchain.
 
-## Features
+## Project Description
 
-- **Token Name:** DoughCoin (DOG)
-- **Token Symbol:** DOG
-- **Standard:** ERC20
-- **Owner Functions:**
-  - `mint(address to, uint256 amount)`: Allows the owner to mint tokens to a specified address.
-- **User Functions:**
-  - `burn(uint256 amount)`: Allows any token holder to burn their tokens.
+The `MyToken` contract provides the following functionalities:
 
-## Prerequisites
+- **Minting:** Only the contract owner can mint new tokens.
+- **Transferring:** Any user can transfer tokens using a custom transfer function.
+- **Burning:** Any user can burn their own tokens.
+
+### Custom Transfer Functionality
+
+The custom transfer function allows users to transfer tokens from their account to another account, with additional checks to ensure that the sender has enough tokens to transfer.
+
+```solidity
+function transferToken(address _receiver, uint256 _value) external {
+    require(balanceOf(msg.sender) >= _value, "Insufficient balance");
+    _transfer(msg.sender, _receiver, _value);
+}
+```
+
+### Features
+
+1. **Only Owner Can Mint:** The `mint` function is restricted to the contract owner, ensuring that only the owner can increase the token supply.
+
+   ```solidity
+   function mint(address to, uint256 amount) public onlyOwner {
+       _mint(to, amount);
+   }
+   ```
+
+2. **Custom Transfer Function:** The `transferToken` function allows users to transfer tokens, incorporating a check to ensure the sender has a sufficient balance.
+
+   ```solidity
+   function transferToken(address _receiver, uint256 _value) external {
+       require(balanceOf(msg.sender) >= _value, "Insufficient balance");
+       _transfer(msg.sender, _receiver, _value);
+   }
+   ```
+
+3. **Burn Function:** The `burn` function allows users to destroy their tokens, reducing the total supply.
+
+   ```solidity
+   function burn(uint256 amount) public {
+       _burn(msg.sender, amount);
+   }
+   ```
+
+### Error Handling
+
+The contract uses `require` statements to handle errors like insufficient balance during transfers and minting by non-owners.
+
+## Getting Started
+
+### Prerequisites
 
 To deploy and interact with this contract, you will need:
 
-- [Node.js](https://nodejs.org/)
-- [npm](https://www.npmjs.com/)
 - [Remix IDE](https://remix.ethereum.org/)
+- An Ethereum wallet (e.g., MetaMask)
+- [Solidity](https://soliditylang.org/)
 
-## Installation
 
-### Cloning the Repository
 
-1. Clone this repository:
-    ```bash
-    git clone https://github.com/Romio1310/Metacrafters.git
-    ```
-2. Navigate to the project directory:
-    ```bash
-    cd mytoken
-    ```
-3. Install Dependencies:
-    ```bash
-    # No dependencies required for the contract itself
-    ```
+## Video Walkthrough
 
-## Usage
-
-### Deploying with Remix IDE
-
-1. Open [Remix IDE](https://remix.ethereum.org/).
-2. Create a new file and copy the contract code into it.
-3. Compile the contract using the Solidity compiler.
-4. Deploy the contract using an Ethereum wallet like MetaMask.
-
-### Interacting with the Contract
-
-1. **Mint Tokens:**
-    - Connect to the contract owner's address.
-    - Call the `mint` function with the recipient's address and the amount to mint.
-
-2. **Burn Tokens:**
-    - Connect to any token holder's address.
-    - Call the `burn` function with the amount of tokens to burn.
-
-## Contract Details
-
-### Example Contract Code
-
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-
-contract MyToken is ERC20, Ownable {
-    constructor() ERC20("DoughCoin", "DOG") Ownable(msg.sender) {}
-
-    function mint(address to, uint256 amount) public onlyOwner {
-        _mint(to, amount);
-    }
-
-    function burn(uint256 amount) public {
-        _burn(msg.sender, amount);
-    }
-}
-```
-## Types of Functions
-### Owner Functions
-    
-- `mint(address to, uint256 amount)`: Allows the contract owner to mint tokens to a specified address.
-### User Functions
-- `burn(uint256 amount)`: Allows any token holder to burn their tokens.
-
+A video walkthrough explaining the code and the functionality of the contract can be found here: [Video Link]([https://yourvideolink.com](https://www.loom.com/share/8f5c13984bb5485eb887a70f4df022a1?sid=c6465e9a-f94c-489d-9cd1-12923345b021)).
 
 ## Conclusion
-By following these instructions, you can deploy and interact with the MyToken ERC20 smart contract, leveraging Remix IDE for development and testing. The project demonstrates the essential functionalities of token minting, burning, and transferring in a decentralized environment.
 
-## Note
-
-This `README.md` file now includes all the sections and information you requested, properly formatted and structured.
+This project demonstrates the creation of an ERC-20 token with minting, burning, and custom transfer functionalities. The contract adheres to the ERC-20 standard while incorporating additional features to manage tokens effectively.
